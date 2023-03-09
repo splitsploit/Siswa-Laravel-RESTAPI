@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
 {
@@ -23,5 +24,42 @@ class StudentController extends Controller
             'status' => 404,
             'message' => 'Students Data Not Found!',
         ], 404);
+    }
+    
+    public function create (Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'course' => 'required|string|max:100',
+            'email' => 'required|email',
+            'phone' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages(),
+            ], 422);
+        } else {
+            
+            $student = Student::create([
+                'name' => $request->name,
+                'course' => $request->course,
+                'email' => $request->email,
+                'phone' => $request->phone,
+            ]);
+
+            if ($student) {
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Students Created Successfully',
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Error Was Found, Check Again!',
+                ], 500);
+            }
+
+        }
     }
 }
