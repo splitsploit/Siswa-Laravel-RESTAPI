@@ -90,7 +90,7 @@ class StudentController extends Controller
         }
 
         return response()->json([
-            'status' => 500,
+            'status' => 484,
             'message' => 'Student Not Found!',
         ], 500);
     }
@@ -126,12 +126,30 @@ class StudentController extends Controller
                 ], 200);
             } else {
                 return response()->json([
-                    'status' => 500,
+                    'status' => 404,
                     'message' => 'No Such Student Were Found!',
                 ], 500);
             }
 
         }
+    }
+
+    public function destroy ($id) {
+        $student = Student::find($id);
+
+        if ($student) {
+            $student->delete();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Student Deleted Successfully',
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 404,
+            'message' => 'Student Not Found!',
+        ], 404);
     }
 }
 
