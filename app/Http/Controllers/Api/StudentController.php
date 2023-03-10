@@ -72,10 +72,66 @@ class StudentController extends Controller
                 'student' => $student,
             ],200);
         }
-        
+
         return response()->json([
             'status' => 500,
             'message' => 'Student Not Found!',
         ], 500);
     }
+
+    public function edit ($id) {
+        $student = Student::find($id);
+            
+        if ($student) {
+            return response()->json([
+                'status' => 200,
+                'student' => $student,
+            ],200);
+        }
+
+        return response()->json([
+            'status' => 500,
+            'message' => 'Student Not Found!',
+        ], 500);
+    }
+
+    public function update (Request $request, $id) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'course' => 'required|string|max:100',
+            'email' => 'required|email',
+            'phone' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages(),
+            ], 422);
+        } else {
+            
+            $student = Student::find($id);
+
+            $student->update([
+                'name' => $request->name,
+                'course' => $request->course,
+                'email' => $request->email,
+                'phone' => $request->phone,
+            ]);
+
+            if ($student) {
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Students Updated Successfully',
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'No Such Student Were Found!',
+                ], 500);
+            }
+
+        }
+    }
 }
+
