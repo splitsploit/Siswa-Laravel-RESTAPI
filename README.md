@@ -1,6 +1,6 @@
 # CRUD Siswa Laravel-RestAPI
 
-Just an simple Create, Read, Update, and Delete Students Retful API.
+Just an simple Create, Read, Update, and Delete Students Restful API.
 
 This API can be used to frontend framework like VueJS, ReactJS, AngularJS, and others.
 
