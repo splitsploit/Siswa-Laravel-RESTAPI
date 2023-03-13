@@ -90,7 +90,7 @@ class StudentController extends Controller
         }
 
         return response()->json([
-            'status' => 484,
+            'status' => 404,
             'message' => 'Student Not Found!',
         ], 500);
     }
